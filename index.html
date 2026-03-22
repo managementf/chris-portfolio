@@ -15,7 +15,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--cream);color:var(--ink);font-family:'Outfit',sans-serif;-webkit-font-smoothing:antialiased}
+body{background:var(--cream);color:var(--ink);font-family:'Outfit',sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
 
 /* ─── NAV ─── */
 nav{
@@ -35,7 +35,7 @@ nav a:hover{color:var(–gold)}
 
 /* ─── HERO INTRO STRIP ─── */
 .hero-strip{
-background:var(–cream);
+background:#faf8f4;
 padding:3.5rem 4rem 2rem;
 border-bottom:1px solid var(–border);
 display:flex;align-items:center;justify-content:space-between;gap:2rem;
@@ -231,19 +231,50 @@ footer{background:var(–ink);padding:1.8rem 4rem;display:flex;align-items:cente
 .fc{font-family:‘JetBrains Mono’,monospace;font-size:.58rem;color:rgba(250,248,244,.25);letter-spacing:.1em;font-weight:500}
 
 /* ─── REVEAL ─── */
-.rev{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.rev{opacity:1;transform:none;transition:opacity .6s ease,transform .6s ease}
 .rev.vis{opacity:1;transform:none}
 
 /* ─── RESPONSIVE ─── */
 @media(max-width:860px){
-nav{padding:1rem 1.5rem}
-nav ul{gap:1rem}
-.hero-strip{padding:2rem 1.5rem;flex-direction:column;align-items:flex-start}
-.inn{padding:0 1.5rem}
-.sg,.pg,.pg2,.wg,.prsteps{grid-template-columns:1fr}
+.hero-strip{background:#faf8f4!important}
+#services{background:#0d0d0d!important}
+#work{background:#0d0d0d!important}
+#process{background:#0d0d0d!important}
+#packages{background:#faf8f4!important}
+#why{background:#f2ede4!important}
+#skills{background:#faf8f4!important}
+#contact{background:#faf8f4!important}
+#ctab{background:#1a6b6b!important}
+nav{padding:.9rem 1.5rem}
+nav ul{display:none}
+.hamburger{display:flex}
+.hero-strip{padding:2rem 1.5rem;flex-direction:column;align-items:flex-start;gap:1.2rem}
+.hero-left{flex-direction:column;align-items:flex-start;gap:1rem}
+.avatar{width:58px;height:58px}
+.hero-text h1{font-size:1.7rem}
+.hero-tagline{font-size:.92rem;max-width:100%}
+.hero-ctas{width:100%}
+.hero-ctas .btn{flex:1;justify-content:center;font-size:.62rem;padding:.75rem 1rem}
+.inn{padding:0 1.2rem}
+.sg{grid-template-columns:1fr;gap:0}
+.sc{border-left:none!important;border-bottom:1px solid rgba(255,255,255,.07)}
+.pg,.pg2{grid-template-columns:1fr;gap:1rem}
+.wg{grid-template-columns:1fr 1fr;gap:1rem}
+.prsteps{grid-template-columns:1fr 1fr;gap:1.5rem}
+.prsteps::before{display:none}
 .pcont.on{grid-template-columns:1fr}
 .contg{grid-template-columns:1fr;gap:2rem}
-footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
+.ptabs{overflow-x:auto}
+.frow{grid-template-columns:1fr}
+footer{flex-direction:column;gap:.5rem;text-align:center;padding:1.2rem}
+section{padding:3.5rem 0}
+h2{margin-bottom:1.5rem}
+.psec{font-size:.6rem}
+}
+@media(max-width:480px){
+.wg{grid-template-columns:1fr}
+.prsteps{grid-template-columns:1fr}
+.hero-text h1{font-size:1.5rem}
 }
 </style>
 
@@ -261,7 +292,20 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
     <li><a href="#skills">Skills</a></li>
     <li><a href="#contact" class="nav-hire">Hire Me</a></li>
   </ul>
+  <div class="hamburger" onclick="toggleMenu()" id="ham">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
+
+<!-- Mobile Menu -->
+
+<div class="mob-menu" id="mobMenu">
+  <a href="#services" onclick="closeMenu()">Services</a>
+  <a href="#work" onclick="closeMenu()">Work</a>
+  <a href="#packages" onclick="closeMenu()">Packages</a>
+  <a href="#skills" onclick="closeMenu()">Skills</a>
+  <a href="#contact" onclick="closeMenu()">Hire Me</a>
+</div>
 
 <!-- ═══ HERO STRIP ═══ -->
 
@@ -288,7 +332,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
 
 <div id="skills">
   <div class="inn" style="padding-top:2.2rem;padding-bottom:2.2rem">
-    <div style="display:flex;flex-wrap:wrap;gap:.65rem;align-items:center">
+    <div style="display:flex;flex-wrap:wrap;gap:.55rem;align-items:center">
       <span style="font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-right:.2rem">Skills &amp; Tools:</span>
       <span class="spill">Data Analytics</span>
       <span class="spill">Excel — DataCamp ✓</span>
@@ -624,7 +668,16 @@ footer{flex-direction:column;gap:.6rem;text-align:center;padding:1.5rem}
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 
-const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add(‘vis’)})},{threshold:.08});
+function toggleMenu(){
+document.getElementById(‘mobMenu’).classList.toggle(‘open’);
+}
+function closeMenu(){
+document.getElementById(‘mobMenu’).classList.remove(‘open’);
+}
+// Force show all elements immediately, then add animation for those in view
+document.querySelectorAll(’.rev’).forEach(el=>{el.classList.add(‘vis’)});
+// Also use observer for scroll-based reveal on desktop
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add(‘vis’)})},{threshold:0,rootMargin:‘0px 0px -50px 0px’});
 document.querySelectorAll(’.rev’).forEach(el=>obs.observe(el));
 const secs=document.querySelectorAll(‘section[id], div[id]’);
 const lks=document.querySelectorAll(‘nav a:not(.nav-hire)’);
